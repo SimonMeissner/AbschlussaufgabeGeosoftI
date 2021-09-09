@@ -2,4 +2,19 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Welcome to #[em Cityguide]!
+  p You get informations about sights in the City of Münster as well as suggestions for some nice citytours :)
+  
+  h1 Dynamic content
+
+  if error
+    p Error getting dynamic content.
+  else
+    p There are already some exciting sights an tours to explore:
+  block content
+    h1= title
+    ul
+      li #[strong Sights:] !{data.sight_count}
+      li #[strong Citytours:] !{data.tour_count}
+    
+    p If you have more suggestions feel free to add them to our website!

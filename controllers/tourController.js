@@ -1,8 +1,13 @@
 var Tour = require('../models/tour');
 
-// Display list of all tour.
+// Display list of all tours.
 exports.tour_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: tour list');
+    Tour.find({}, 'name')
+    .exec(function (err, list_tour) {
+      if (err) { return next(err); }
+      //Successful, so render
+      res.render('tours', { title: 'Tour List', tour_list: list_tour });
+    });
 };
 
 // Display detail page for a specific tour.
