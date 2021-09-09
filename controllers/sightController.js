@@ -1,7 +1,19 @@
 var Sight = require('../models/sight');
+var Tour = require('../models/tour');
+
+var async = require('async');
 
 exports.index = function(req, res) {
-    res.send('NOT IMPLEMENTED: Site Home Page');
+    async.parallel({
+        sight_count: function(callback) {
+            Sight.countDocuments({}, callback); // Pass an empty object as match condition to find all documents of this collection
+        },
+        tour_count: function(callback) {
+            Tour.countDocuments({}, callback);
+        },
+    }, function(err, results) {
+        res.render('index', { title: 'Cityguide Home', error: err, data: results });
+    });
 };
 
 // Display list of all sights.

@@ -10,5 +10,12 @@ var TourSchema = new Schema(
   }
 );
 
+// Virtual for tour's URL
+TourSchema
+.virtual('url')
+.get(function () {
+  return '/sightstours/' + this._id;
+});
+
 //Export model
 module.exports = mongoose.model('Tour', TourSchema);
