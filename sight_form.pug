@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='name') Name of sight:
+      input#name.form-control(type='text', placeholder='Prinzipalmarkt, Schloss etc.' name='name' value=(undefined===sight ? '' : sight.name))
+      label(for='weburl') URL of informative website of sight: 
+      input#weburl.form-control(type='text', placeholder='e.g. de.wikipedia.org/wiki/Prinzipalmarkt' weburl='weburl' value=(undefined===sight ? '' : sight.weburl))
+      label(for='geojson') Location of sight as GeoJSON: 
+      input#geojson.form-control(type='text', placeholder='GeoJSON polygon or point' geojson='geojson' value=(undefined===sight ? '' : sight.geojson))
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+   ul
+    for error in errors
+     li!= error.msg
