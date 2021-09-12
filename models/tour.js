@@ -14,7 +14,7 @@ var TourSchema = new Schema(
 TourSchema
 .virtual('url')
 .get(function () {
-  return '/sightstours/' + this._id;
+  return '/tours/' + this._id;
 });
 
 //Export model

@@ -9,5 +9,6 @@ block content
         each tour in tour_list
             li
                 a(href=tour.url) #{tour.name}
+                | (#{tour.items.name})
         else 
             li There are no tours.
