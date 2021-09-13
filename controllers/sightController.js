@@ -45,9 +45,9 @@ exports.sight_create_get = function(req, res, next) {
 exports.sight_create_post =  [
 
     // Validate and santize the name field.
-    body('name', 'Sight name required').trim().isLength({ min: 1 }).escape(),
-    //body('link', 'Sight link required').trim().isLength({ min: 1 }).escape(),
-    //body('description', 'Sight description required').trim().isLength({ min: 1 }).escape(),
+    body('name').trim().isLength({ min: 1 }).escape().withMessage('Sight name required'),
+    body('link').trim().isLength({ min: 1 }).escape().withMessage('Sight link required'),
+    body('description').trim().isLength({ min: 1 }).escape().withMessage('Sight description required'),
     
   
     // Process request after validation and sanitization.
@@ -83,9 +83,22 @@ exports.sight_create_post =  [
         return;
       }
       else {
+
+        sight.save(function (err) {
+            if (err) { return next(err); }
+            console.log(sight)
+            res.redirect('/cityguide/sight/');
+        });
+        
+        //Weil das nicht funktioniert hat, anderer Weg zur Überprüfung ob sight mit diesem namen schon existiert. Über Schema(unique: true)
+        /*
+
+
         // Data from form is valid.
         // Check if Sight with same name already exists.
-        Sight.findOne({ 'features[0].properties.name' : req.body.name })
+
+        
+         Sight.findOne({ 'features[0].properties.name' : req.body.name })
           .exec( function(err, found_sight) {
                 console.log(req.body)
                 console.log(found_sight.features[0].properties.name)
@@ -108,8 +121,9 @@ exports.sight_create_post =  [
   
              }
   
-           });
-      }
+           }); */
+        }
+        
     }
   ];
 

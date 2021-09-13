@@ -1,4 +1,4 @@
-const sight = require('../models/sight');
+const Sight = require('../models/sight');
 var Tour = require('../models/tour');
 
 var async = require('async'); //require the package "async" to use asynchronous functions
@@ -26,7 +26,7 @@ exports.tour_create_get = function(req, res, next) {
     //Get all sights which we can use for adding to our tour.
     async.parallel({
         sights: function(callback) {
-            sight.find(callback);
+            Sight.find(callback);
         }
     }, function(err, result) {
         if(err) { return next(err); }
@@ -39,17 +39,17 @@ exports.tour_create_post = [
 
     //Convert the sight to an array.
     (req, res, next) => {
-        if(!(req.body.sight instanceof Array)){
-            if(typeof req.body.sight ==='undefinded')
-            req.body.sight = [];
+        if(!(req.body.items instanceof Array)){
+            if(typeof req.body.items ==='undefinded')
+            req.body.items = [];
             else
-            req.body.sight = new Array(req.body.sight);
+            req.body.items = new Array(req.body.items);
         }
         next();
     },
 
     // Validate and sanitize fields.
-    body('name').trim().isLength({ min: 1 }).escape().withMessage('First name must be specified.'),
+    body('name').trim().isLength({ min: 1 }).escape().withMessage('Name must be specified.'),
     body('sight.*').escape(),
     
 
@@ -63,7 +63,7 @@ exports.tour_create_post = [
         var tour = new Tour(
             { 
                 name: req.body.name,
-                sight: req.body.sight
+                items: req.body.sight
             });
   
           if (!errors.isEmpty()) {
@@ -72,7 +72,7 @@ exports.tour_create_post = [
               // Get all sights for form
               async.parallel({
                   sights: function(callback) {
-                      sight.find(callback);
+                      Sight.find(callback);
                   }
               }, function(err, results) {
                   if (err) { return next(err); }

@@ -14,6 +14,7 @@ var Schema = mongoose.Schema;
 
 var PolygonSchema = new Schema(
   {
+    _id: false,
     type: {
       type: String,
       required: true,
@@ -32,12 +33,13 @@ var SightSchema = new Schema(
     },
     features: [
       {
+        _id: false,
         type: {type: String, required: true, enum: ['Feature']
         },
         properties: {
-          name: {type: String, required: true, maxLength: 100},
-          link: {type: String, required: true, maxLength: 100},
-          description: {type: String, required: true, maxLength: 500}
+          name: {type: String, required: [true, 'Please add a Sightname'], unique: true, maxLength: 100},
+          link: {type: String, required: [true, 'Please add a Sightlink'], maxLength: 100},
+          description: {type: String, required: [true, 'Please add a Sightdescription'], maxLength: 500}
         },
         geometry: PolygonSchema
       }
