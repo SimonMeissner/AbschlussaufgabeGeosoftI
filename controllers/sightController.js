@@ -85,20 +85,25 @@ exports.sight_create_post =  [
       else {
         // Data from form is valid.
         // Check if Sight with same name already exists.
-        Sight.findOne({ 'name': req.body.name })
+        Sight.findOne({ 'features[0].properties.name' : req.body.name })
           .exec( function(err, found_sight) {
+                console.log(req.body)
+                console.log(found_sight.features[0].properties.name)
              if (err) { return next(err); }
   
              if (found_sight) {
                // Sight exists, redirect to its detail page.
-               res.redirect(found_sight.url);
+               //res.redirect(found_sight.url);
+               console.log("Sight with same name exists!")
+               res.redirect('/sight/')
              }
              else {
   
                sight.save(function (err) {
                  if (err) { return next(err); }
                  // Sight saved. Redirect to Sight detail page.
-                 res.redirect(sight.url);
+                 //res.redirect(sight.url);
+                 res.redirect('/sight/');
                });
   
              }

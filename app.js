@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require('dotenv/config');
+require('dotenv/config'); //Used for importing tokens/apikeys etc.
+const { body,validationResult } = require("express-validator"); //Used for validating forms
 
-const { body,validationResult } = require("express-validator");
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -13,10 +14,11 @@ var cityguideRouter = require('./routes/cityguide');  //Import routes for citygu
 
 var app = express();
 
+
 //Import the mongoose module
 var mongoose = require('mongoose');
 // Set up mongoose (hence MongoDB) connection
-var mongoDB = process.env.MongooseToken;
+var mongoDB = process.env.MongooseToken; //Url for Mongoose Connection in .env file
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
 var db = mongoose.connection;

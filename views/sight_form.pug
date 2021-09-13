@@ -3,16 +3,17 @@ extends layout
 block content
   h1 #{title}
 
+
   form(method='POST' action='')
     div.form-group
       label(for='sightname') Sightname:
-      input#sightname.form-control(type='text', name='name' value=(undefined===sight ? '' : sight.name))
+      input#sightname.form-control(type='text' name='name' value=(undefined===sight ? '' : sight.name), required= 'true')
       label(for='sightlink') Sightlink:
-      input#sightlink.form-control(type='text', name='link' value=(undefined===sight ? '' : sight.link))
+      input#sightlink.form-control(type='text' name='link' value=(undefined===sight ? '' : sight.link), required= 'true')
       label(for='sightdescription') Sightdescription:
-      input#sightdescription.form-control(type='text', name='description' value=(undefined===sight ? '' : sight.description))
+      input#sightdescription.form-control(type='text' name='description' value=(undefined===sight ? '' : sight.description), required= 'true')
       label(for='sightcoordinates') SightCoordinates:
-      input#sightcoordinates.form-control(type='text', name='coordinates[]' value=(undefined===sight ? '' : sight.coordinates))
+      input#sightcoordinates.form-control(type='text' name='coordinates[]' value=(undefined===sight ? '' : sight.coordinates))
 
     button.btn.btn-primary(type='submit') Submit
 
