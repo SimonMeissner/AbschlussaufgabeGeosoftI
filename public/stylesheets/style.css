@@ -6,3 +6,15 @@ body {
 a {
   color: #00B7FF;
 }
+
+#sight_form_mapid {height: 500px;}
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+    #sight_form_mapid {width: 70%;}
+  }
+
+#sight_list_mapid  {height: 500px;}
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+    #sight_list_mapid {width: 70%;}
+  }
