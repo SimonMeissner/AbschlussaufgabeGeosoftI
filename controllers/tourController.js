@@ -11,7 +11,7 @@ exports.tour_list = function(req, res) {
     .exec(function (err, list_tour) {
       if (err) { return next(err); }
       //Successful, so render
-      res.render('tours', { title: 'Tour List', tour_list: list_tour });
+      res.render('tour_list', { title: 'Tour List', tour_list: list_tour });
     });
 };
 
@@ -45,12 +45,13 @@ exports.tour_create_post = [
             else
             req.body.items = new Array(req.body.items);
         }
+        console.log(req.body.items)
         next();
     },
 
     // Validate and sanitize fields.
     body('name').trim().isLength({ min: 1 }).escape().withMessage('Name must be specified.'),
-    body('sight.*').escape(),
+    //body('sight.*').escape(),
     
 
     // Process request after validation and sanitization.
@@ -63,9 +64,9 @@ exports.tour_create_post = [
         var tour = new Tour(
             { 
                 name: req.body.name,
-                items: req.body.sight
+                items: req.body.items
             });
-  
+            console.log(tour);
           if (!errors.isEmpty()) {
               // There are errors. Render form again with sanitized values/error messages.
   
@@ -94,7 +95,7 @@ exports.tour_create_post = [
                   if (err) { return next(err); }
                      //successful - redirect to new tour record.
                      //res.redirect(tour.url);
-                     res.redirect('/tour');
+                     res.redirect('/cityguide/tour');
                   });
           }
       }

@@ -46,7 +46,7 @@ exports.sight_create_post =  [
 
     // Validate and santize the name field.
     body('name').trim().isLength({ min: 1 }).escape().withMessage('Sight name required'),
-    body('link').trim().isLength({ min: 1 }).escape().withMessage('Sight link required'),
+    //body('link').trim().isLength({ min: 1 }).escape().withMessage('Sight link required'),
     body('description').trim().isLength({ min: 1 }).escape().withMessage('Sight description required'),
     
   
