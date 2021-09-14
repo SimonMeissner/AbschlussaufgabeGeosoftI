@@ -46,8 +46,8 @@ exports.sight_create_post =  [
 
     // Validate and santize the name field.
     body('name').trim().isLength({ min: 1 }).escape().withMessage('Sight name required'),
-    //body('link').trim().isLength({ min: 1 }).escape().withMessage('Sight link required'),
-    body('description').trim().isLength({ min: 1 }).escape().withMessage('Sight description required'),
+    body('link').trim().isLength({ min: 1 }).withMessage('Sight link required'),
+    
     
   
     // Process request after validation and sanitization.
@@ -55,7 +55,8 @@ exports.sight_create_post =  [
   
       // Extract the validation errors from a request.
       const errors = validationResult(req);
-  
+        console.log('Coordinates sieht so aus: ' + req.body.coordinates)
+        
       // Create a genre object with escaped and trimmed data.
       var sight = new Sight(
           {
@@ -66,17 +67,21 @@ exports.sight_create_post =  [
                       "properties": {
                           name: req.body.name,
                           link: req.body.link,
-                          description: req.body.description
+                          description: 'not available'
                       },
                       "geometry": {
                           "type": "Polygon",
-                          coordinates: req.body.coordinates
+                          coordinates: JSON.parse('[' + req.body.coordinates + ']' ) //Have to pass [[Numbers]] instead of [[[Numbers]]] because of error with JSON.parse()
+                          
                       }
                   }
               ]
           }
       );
-  
+          
+      
+      console.log('Coordinates sieht so aus: ' + sight.features[0].geometry.coordinates)
+      
       if (!errors.isEmpty()) {
         // There are errors. Render the form again with sanitized values/error messages.
         res.render('sight_form', { title: 'Create Sight', sight: sight, errors: errors.array()});
@@ -86,7 +91,6 @@ exports.sight_create_post =  [
 
         sight.save(function (err) {
             if (err) { return next(err); }
-            console.log(sight)
             res.redirect('/cityguide/sight/');
         });
         
