@@ -8,6 +8,15 @@ html(lang='en')
     script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
     script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    <!--Inculde Leaflet:-->
+    link(rel="stylesheet", href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css", integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==", crossorigin="")
+    script(src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js", integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==", crossorigin="")
+    <!--Include Leaflet Draw plugin:-->
+    link(rel="stylesheet", href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css")
+    script(src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js")
+    <!--Include scripts:-->
+    <script defer src="/javascripts/sight_form.js"></script>
+    <script defer src="/javascripts/sight_list.js"></script>
   body
     div(class='container-fluid')
       div(class='row')
