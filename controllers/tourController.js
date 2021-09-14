@@ -24,14 +24,14 @@ exports.tour_detail = function(req, res) {
 exports.tour_create_get = function(req, res, next) {
 
     //Get all sights which we can use for adding to our tour.
-    async.parallel({
-        sights: function(callback) {
-            Sight.find(callback);
-        }
-    }, function(err, result) {
-        if(err) { return next(err); }
-        res.render('tour_form', { title: 'Create Tour', sights: result.sights});
+    Sight.find()
+    .exec(function (err, sights) {
+        if (err) {return next(err);}
+        //Successful, so render.
+        res.render('tour_form', { title: 'Create Tour', sights : sights})
+        
     });
+
 };
 
 // Handle tour create on POST.
@@ -49,9 +49,9 @@ exports.tour_create_post = [
         next();
     },
 
-    // Validate and sanitize fields.
-    body('name').trim().isLength({ min: 1 }).escape().withMessage('Name must be specified.'),
-    //body('sight.*').escape(),
+    // Validate and sanitize field.
+    body('name').trim().isLength({ min: 1 }).escape().withMessage('Tour name is required'),
+    
     
 
     // Process request after validation and sanitization.
@@ -60,7 +60,7 @@ exports.tour_create_post = [
         // Extract the validation errors from a request.
         const errors = validationResult(req);
 
-        // Create a Book object with escaped and trimmed data.
+        // Create a Tour object with escaped and trimmed data.
         var tour = new Tour(
             { 
                 name: req.body.name,
@@ -68,15 +68,12 @@ exports.tour_create_post = [
             });
             console.log(tour);
           if (!errors.isEmpty()) {
-              // There are errors. Render form again with sanitized values/error messages.
+            // There are errors. Render form again with sanitized values/error messages.
   
-              // Get all sights for form
-              async.parallel({
-                  sights: function(callback) {
-                      Sight.find(callback);
-                  }
-              }, function(err, results) {
-                  if (err) { return next(err); }
+            // Get all sights for form
+            Sight.find()
+            .exec(function (err, sights) {
+                if (err) {return next(err);}
   
                   // Mark our selected genres as checked.
                   for (let i = 0; i < results.sights.length; i++) {

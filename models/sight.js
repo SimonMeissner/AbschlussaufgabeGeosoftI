@@ -39,7 +39,7 @@ var SightSchema = new Schema(
         properties: {
           name: {type: String, required: [true, 'Please add a Sightname'], unique: true, maxLength: 100},
           link: {type: String, required: [true, 'Please add a Sightlink'], maxLength: 100},
-          description: {type: String, required: [true, 'Please add a Sightdescription'], maxLength: 500}
+          description: {type: String, default: 'not available' , maxLength: 500}
         },
         geometry: PolygonSchema
       }
