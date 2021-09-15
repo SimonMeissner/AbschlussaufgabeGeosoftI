@@ -28,8 +28,8 @@ exports.tour_detail = function(req, res, next) {
               .exec(callback);
         },
 
-        tour_items: function(callback) {
-            Sight.find({id : 'items'})
+        items: function(callback) {
+            Sight.find({'items' : id})
               .exec(callback);
         },
 
@@ -41,10 +41,21 @@ exports.tour_detail = function(req, res, next) {
             err.status = 404;
             return next(err);
         }
-        // Successful, so render
+        /*
+    Tour.findById(id)
+    .exec(function(err, tour){
+        if(err) { return next(err);}
+        if(tour==null) { //No Tour found
+            var err = new Error('Tour not found');
+            err.status = 404;
+            return next(err);
+        } */
 
-        console.log('Ich zeige tour_items: ' + results.tour_items)
-        res.render('tour_detail', { title: 'Tour Detail', tour: results.tour, tour_items: results.tour_items } );
+    
+        console.log('tour: ' + results.tour)
+        
+        // Successful, so render
+        res.render('tour_detail', { title: 'Tour Detail', tour: results.tour, items: results.items } );
     });
 };
 

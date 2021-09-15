@@ -36,17 +36,30 @@ exports.sight_detail = function(req, res, next) {
     
     
     var id = mongoose.Types.ObjectId(req.params.id);
-    
-    Sight.findById(id)
-    .exec(function(err, sight){
-        if(err) { return next(err);}
-        if(sight==null) { //No Sight found
+
+    async.parallel({
+        sight: function(callback) {
+            Sight.findById(id)
+              .exec(callback);
+        },
+
+        sightInTour: function(callback) {
+            Tour.find({ 'items' : id})
+              .exec(callback);
+        },
+
+    }, function(err, results) {
+        
+        if (err) { return next(err); }
+        if (results.sight==null) { // No results.
             var err = new Error('Sight not found');
             err.status = 404;
             return next(err);
         }
+        console.log('Ich zeige sightInTour: ' + results.sightInTour)
+        console.log('Ich zeige sight: ' + results.sight)
         //Successful, so render
-        res.render('sight_detail', {title: 'Sight Detail', sight: sight})
+        res.render('sight_detail', {title: 'Sight Detail', sight: results.sight, sightInTour: results.sightInTour})
     }); 
 }    
 
