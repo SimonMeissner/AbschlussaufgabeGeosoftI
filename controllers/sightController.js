@@ -1,3 +1,4 @@
+var mongoose = require('mongoose')
 var Sight = require('../models/sight');
 var Tour = require('../models/tour');
 
@@ -31,9 +32,24 @@ exports.sight_list = function(req, res, next) {
 };
 
 // Display detail page for a specific sight.
-exports.sight_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: sight detail: ' + req.params.id);
-};
+exports.sight_detail = function(req, res, next) {
+    
+    
+    var id = mongoose.Types.ObjectId(req.params.id);
+    
+    Sight.findById(id)
+    .exec(function(err, sight){
+        if(err) { return next(err);}
+        if(sight==null) { //No Sight found
+            var err = new Error('Sight not found');
+            err.status = 404;
+            return next(err);
+        }
+        //Successful, so render
+        res.render('sight_detail', {title: 'Sight Detail', sight: sight})
+    }); 
+}    
+
 
 // Display sight create form on GET.
 exports.sight_create_get = function(req, res, next) {

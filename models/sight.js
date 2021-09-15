@@ -47,6 +47,11 @@ var SightSchema = new Schema(
   }
 );
 
+SightSchema
+.virtual('url')
+.get(function () {
+  return '/cityguide/sight/' + this._id;
+});
 
 
 //Export model

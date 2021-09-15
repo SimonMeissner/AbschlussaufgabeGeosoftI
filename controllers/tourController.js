@@ -1,4 +1,5 @@
-const Sight = require('../models/sight');
+var mongoose = require('mongoose')
+var Sight = require('../models/sight');
 var Tour = require('../models/tour');
 
 var async = require('async'); //require the package "async" to use asynchronous functions
@@ -16,8 +17,35 @@ exports.tour_list = function(req, res) {
 };
 
 // Display detail page for a specific tour.
-exports.tour_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: tour detail: ' + req.params.id);
+exports.tour_detail = function(req, res, next) {
+    
+    var id = mongoose.Types.ObjectId(req.params.id);
+    console.log('Ich bin die Id: ' + id)
+
+    async.parallel({
+        tour: function(callback) {
+            Tour.findById(id)
+              .exec(callback);
+        },
+
+        tour_items: function(callback) {
+            Sight.find({id : 'items'})
+              .exec(callback);
+        },
+
+    }, function(err, results) {
+        
+        if (err) { return next(err); }
+        if (results.tour==null) { // No results.
+            var err = new Error('Tour not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Successful, so render
+
+        console.log('Ich zeige tour_items: ' + results.tour_items)
+        res.render('tour_detail', { title: 'Tour Detail', tour: results.tour, tour_items: results.tour_items } );
+    });
 };
 
 // Display tour create form on GET.
@@ -66,23 +94,23 @@ exports.tour_create_post = [
                 name: req.body.name,
                 items: req.body.items
             });
-            console.log(tour);
+            //console.log(tour);
           if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/error messages.
   
             // Get all sights for form
             Sight.find()
-            .exec(function (err, sights) {
+            .exec(function (err, results) {
                 if (err) {return next(err);}
   
-                  // Mark our selected genres as checked.
+                  // Mark our selected Sights as checked.
                   for (let i = 0; i < results.sights.length; i++) {
-                      if (tour.sight.indexOf(results.sights[i]._id) > -1) {
+                      if (tour.items.indexOf(results.sights[i]._id) > -1) {
                           //Current sight is selected. Set "checked" flag
                           results.sights[i].checked='true';
                       }
                   }
-                  res.render('tour_form', { title: 'Create Tour', genres:results.sights, tour: tour, errors: errors.array() });
+                  res.render('tour_form', { title: 'Create Tour', sights:results.sights, tour: tour, errors: errors.array() });
               });
               return;
           }
