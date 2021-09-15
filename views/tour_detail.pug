@@ -1,0 +1,21 @@
+extends layout
+
+block content
+
+
+    h1 #{title}
+    
+    h4  Tour: #{tour.name}
+
+    div(style='margin-left:20px;margin-top:20px')
+
+        h4 Sights
+
+        dl
+            each sight in tour_items
+                dt
+                    a(href=sight.url) #{sight.url}
+                
+
+            else
+                p The Tour has no sights
