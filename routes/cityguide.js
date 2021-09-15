@@ -19,6 +19,12 @@ router.get('/sight/create', sight_controller.sight_create_get);
 // POST request for creating sight.
 router.post('/sight/create', sight_controller.sight_create_post);
 
+// GET request for searching a sight.
+router.get('/sight/search', sight_controller.sight_search_get);
+
+// POST request for searching sight.
+router.post('/sight/search', sight_controller.sight_search_post);
+
 // GET request to delete sight.
 router.get('/sight/:id/delete', sight_controller.sight_delete_get);
 
@@ -44,6 +50,12 @@ router.get('/tour/create', tour_controller.tour_create_get);
 
 // POST request for creating tour.
 router.post('/tour/create', tour_controller.tour_create_post);
+
+// GET request for searching a tour.
+router.get('/tour/search', tour_controller.tour_search_get);
+
+// POST request for searching tour.
+router.post('/tour/search', tour_controller.tour_search_post);
 
 // GET request to delete tour.
 router.get('/tour/:id/delete', tour_controller.tour_delete_get);
