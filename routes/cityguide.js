@@ -10,6 +10,9 @@ var tour_controller = require('../controllers/tourController');
 // GET catalog home page.
 router.get('/', sight_controller.index);
 
+// GET impressum.
+router.get('/impressum', sight_controller.impressum);
+
 // GET request for creating a sight. NOTE This must come before routes that display sight (uses id).
 router.get('/sight/create', sight_controller.sight_create_get);
 

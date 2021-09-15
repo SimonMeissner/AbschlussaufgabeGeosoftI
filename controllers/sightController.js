@@ -151,3 +151,9 @@ exports.sight_update_get = function(req, res) {
 exports.sight_update_post = function(req, res) {
     res.send('NOT IMPLEMENTED: sight update POST');
 };
+
+
+// Displays impressum
+exports.impressum = function(req, res) {
+        res.render('impressum', { title: 'Impressum'});
+};
