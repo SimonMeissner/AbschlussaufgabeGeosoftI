@@ -1,0 +1,23 @@
+extends layout 
+
+block content
+
+    h1= title 
+
+    ul 
+        - sight_list.sort(function(a , b) { let textA = a.features[0].properties.name.toUpperCase(); let textB = b.features[0].properties.name.toUpperCase(); return(textA < textB) ? -1: (textA > textB) ? 1 : 0;});
+        each sight in sight_list 
+            li
+                ul
+                 
+                    a(href=sight.url) #{sight.features[0].properties.name}
+
+                    li(style='list-style-type: none;') #{sight.features[0].properties.link}
+                    li(style='list-style-type: none;') #{sight.features[0].properties.description}
+                    li(style='list-style-type: none;') #{sight.features[0].geometry}
+                    br
+                
+        else 
+            li There are no sights.
+            
+    #sight_list_mapid

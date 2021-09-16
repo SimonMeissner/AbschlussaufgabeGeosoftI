@@ -3,10 +3,14 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
+
+
 var TourSchema = new Schema(
   {
     name: {type: String, required: true, maxLength: 100},
-    items: [{ type: Schema.Types.ObjectId, ref: 'Sight' }]
+    items: [
+      { type: Schema.Types.ObjectId, ref: 'Sight' }
+    ]
   }
 );
 
@@ -14,7 +18,7 @@ var TourSchema = new Schema(
 TourSchema
 .virtual('url')
 .get(function () {
-  return '/sightstours/' + this._id;
+  return '/cityguide/tour/' + this._id;
 });
 
 //Export model

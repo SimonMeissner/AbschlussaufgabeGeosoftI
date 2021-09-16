@@ -1,0 +1,23 @@
+extends layout
+
+block content 
+    h1=title 
+
+    form(method='POST' action='')
+      div.form-group
+        label(for='tourname') Name of Tour:
+        input#tourname.form-control(type='text' name='name' required='true' value=(undefined===tour ? '' : tour.name) )
+      div.form-group
+        label Sights:
+        div
+          for sight in sights
+            div(style='display: inline; padding-right:10px;')
+              input.checkbox-input(type='checkbox', name='items', id=sight._id, value=sight._id, checked=sight.checked )
+              label(for=sight._id) #{sight.features[0].properties.name}
+              br
+      button.btn.btn-primary(type='submit') Submit
+    
+    if errors
+        ul
+            for error in errors
+                li!= error.msg
