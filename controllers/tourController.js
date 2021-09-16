@@ -137,6 +137,44 @@ exports.tour_create_post = [
       }
 ];
     
+// Display tour search form on GET.
+exports.tour_search_get = function(req, res, next) {
+    res.render('tour_search', { title: 'Search Tours'});
+};
+
+// Handle tour search on POST.
+exports.tour_search_post =    [
+
+    // Validate and santize the name field.
+    body('name').trim().isLength({ min: 1 }).escape().withMessage('Tour name required'),
+    
+    function(req, res, next) {
+        var Name = req.body.name;
+
+        async.parallel({
+        tour: function(callback) {
+            Tour.findOne( {name : Name})
+              .exec(callback);
+        },
+
+        tour_items: function(callback) {
+            Sight.find({id : 'items'})
+              .exec(callback);
+        },
+
+    }, function(err, results) {
+        
+        if (err) { return next(err); }
+        if (results.tour==null) { // No results.
+            var err = new Error('Tour not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Successful, so render
+        res.render('tour_detail', { title: 'Tour Detail', tour: results.tour, tour_items: results.tour_items } );
+    })
+    }
+]
 
 
 // Display tour delete form on GET.

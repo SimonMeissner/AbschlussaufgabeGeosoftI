@@ -70,7 +70,7 @@ exports.sight_create_get = function(req, res, next) {
 };
 
 
-// Handle Genre create on POST.
+// Handle sight create on POST.
 exports.sight_create_post =  [
 
     // Validate and santize the name field.
@@ -86,7 +86,7 @@ exports.sight_create_post =  [
       const errors = validationResult(req);
         console.log('Coordinates sieht so aus: ' + req.body.coordinates)
         
-      // Create a genre object with escaped and trimmed data.
+      // Create a sight object with escaped and trimmed data.
       var sight = new Sight(
           {
               "type": "FeatureCollection",
@@ -161,6 +161,36 @@ exports.sight_create_post =  [
   ];
 
 
+// Display sight search form on GET.
+exports.sight_search_get = function(req, res, next) {
+    res.render('sight_search', { title: 'Search Sights'});
+};
+
+// Handle sight search on POST.
+exports.sight_search_post =   [
+
+    // Validate and santize the name field.
+    body('name').trim().isLength({ min: 1 }).escape().withMessage('Sight name required'),
+    
+    // Process request after validation and sanitization.
+    function(req, res, next) {
+        var Name = req.body.name;
+        
+        Sight.findOne({'features.properties.name' : Name},
+        function(err, sight){
+            if(err) { return next(err);}
+            if(sight==null) { //No Sight found
+                var err = new Error('Sight not found');
+                err.status = 404;
+                return next(err);
+            }
+            //Successful, so render
+            
+            res.render('sight_detail', {title: 'Sight Detail', sight: sight})
+        }); 
+    }
+];
+
 // Display sight delete form on GET.
 exports.sight_delete_get = function(req, res) {
     res.send('NOT IMPLEMENTED: sight delete GET');
@@ -179,4 +209,10 @@ exports.sight_update_get = function(req, res) {
 // Handle sight update on POST.
 exports.sight_update_post = function(req, res) {
     res.send('NOT IMPLEMENTED: sight update POST');
+};
+
+
+// Displays impressum
+exports.impressum = function(req, res) {
+        res.render('impressum', { title: 'Impressum'});
 };

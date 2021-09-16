@@ -19,6 +19,7 @@ var app = express();
 var mongoose = require('mongoose');
 // Set up mongoose (hence MongoDB) connection
 var mongoDB = process.env.MongooseToken; //Url for Mongoose Connection in .env file
+// var mongoDB = 'mongodb://localhost/27017';  //Using locally hosted database
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
 var db = mongoose.connection;
