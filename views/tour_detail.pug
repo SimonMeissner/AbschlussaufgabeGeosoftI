@@ -9,12 +9,12 @@ block content
 
     div(style='margin-left:20px;margin-top:20px')
 
-        h4 Sights
+        h4 Sights:
 
         dl
-            each sight in tour_items
+            each sight in sightInTour
                 dt
-                    a(href=sight.url) #{sight.url}
+                    a(href=sight.url) #{sight.features[0].properties.name}
                 
 
             else

@@ -1,6 +1,21 @@
-extends layout 
+extends layout
 
-block content 
+block content
+
+
     h1 #{title}
+    
+    h4  Sight: #{sight.features[0].properties.name}
 
-    h4 Sight:  #{sight.features[0].properties.name}
+    div(style='margin-left:20px;margin-top:20px')
+
+        h4 In Tours:
+
+        dl
+            each tour in sightInTour
+                dt
+                    a(href=tour.url) #{tour.name}
+                
+
+            else
+                p The Sight is in no Tours
