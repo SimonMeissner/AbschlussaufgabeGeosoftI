@@ -56,8 +56,6 @@ exports.sight_detail = function(req, res, next) {
             err.status = 404;
             return next(err);
         }
-        console.log('Ich zeige sightInTour: ' + results.sightInTour)
-        console.log('Ich zeige sight: ' + results.sight)
         //Successful, so render
         res.render('sight_detail', {title: 'Sight Detail', sight: results.sight, sightInTour: results.sightInTour})
     }); 
@@ -109,8 +107,6 @@ exports.sight_create_post =  [
       );
           
       
-      console.log('Coordinates sieht so aus: ' + sight.features[0].geometry.coordinates)
-      
       if (!errors.isEmpty()) {
         // There are errors. Render the form again with sanitized values/error messages.
         res.render('sight_form', { title: 'Create Sight', sight: sight, errors: errors.array()});
@@ -122,39 +118,7 @@ exports.sight_create_post =  [
             if (err) { return next(err); }
             res.redirect('/cityguide/sight/');
         });
-        
-        //Weil das nicht funktioniert hat, anderer Weg zur Überprüfung ob sight mit diesem namen schon existiert. Über Schema(unique: true)
-        /*
 
-
-        // Data from form is valid.
-        // Check if Sight with same name already exists.
-
-        
-         Sight.findOne({ 'features[0].properties.name' : req.body.name })
-          .exec( function(err, found_sight) {
-                console.log(req.body)
-                console.log(found_sight.features[0].properties.name)
-             if (err) { return next(err); }
-  
-             if (found_sight) {
-               // Sight exists, redirect to its detail page.
-               //res.redirect(found_sight.url);
-               console.log("Sight with same name exists!")
-               res.redirect('/sight/')
-             }
-             else {
-  
-               sight.save(function (err) {
-                 if (err) { return next(err); }
-                 // Sight saved. Redirect to Sight detail page.
-                 //res.redirect(sight.url);
-                 res.redirect('/sight/');
-               });
-  
-             }
-  
-           }); */
         }
         
     }
@@ -176,17 +140,26 @@ exports.sight_search_post =   [
     function(req, res, next) {
         var Name = req.body.name;
         
-        Sight.findOne({'features.properties.name' : Name},
-        function(err, sight){
+        
+        Sight.findOne({'features.properties.name' : Name})
+        .exec(function(err, sight){
             if(err) { return next(err);}
             if(sight==null) { //No Sight found
                 var err = new Error('Sight not found');
                 err.status = 404;
                 return next(err);
             }
-            //Successful, so render
             
-            res.render('sight_detail', {title: 'Sight Detail', sight: sight})
+
+            Tour.find({ 'items' : sight._id},
+            function(err, items){
+                if(err) { return next(err);}
+
+                //Successful, so render
+                res.render('sight_detail', {title: 'Sight Detail', sight: sight, sightInTour: items})
+            });
+
+            
         }); 
     }
 ];

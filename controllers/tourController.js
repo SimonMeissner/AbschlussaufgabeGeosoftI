@@ -4,6 +4,7 @@ var Tour = require('../models/tour');
 
 var async = require('async'); //require the package "async" to use asynchronous functions
 const { body,validationResult } = require("express-validator"); //require the package "express-validator" for easy validation of forms
+const tour = require('../models/tour');
 
 // Display list of all tours.
 exports.tour_list = function(req, res) {
@@ -20,43 +21,23 @@ exports.tour_list = function(req, res) {
 exports.tour_detail = function(req, res, next) {
     
     var id = mongoose.Types.ObjectId(req.params.id);
-    console.log('Ich bin die Id: ' + id)
-
-    async.parallel({
-        tour: function(callback) {
-            Tour.findById(id)
-              .exec(callback);
-        },
-
-        items: function(callback) {
-            Sight.find({'items' : id})
-              .exec(callback);
-        },
-
-    }, function(err, results) {
-        
-        if (err) { return next(err); }
-        if (results.tour==null) { // No results.
-            var err = new Error('Tour not found');
-            err.status = 404;
-            return next(err);
-        }
-        /*
+    
     Tour.findById(id)
     .exec(function(err, tour){
-        if(err) { return next(err);}
-        if(tour==null) { //No Tour found
-            var err = new Error('Tour not found');
-            err.status = 404;
-            return next(err);
-        } */
-
-    
-        console.log('tour: ' + results.tour)
-        
-        // Successful, so render
-        res.render('tour_detail', { title: 'Tour Detail', tour: results.tour, items: results.items } );
-    });
+            if(err) { return next(err);}
+            if(tour==null) { //No Tour found
+                var err = new Error('Sight not found');
+                err.status = 404;
+                return next(err);
+            }
+            Sight.find({ _id : { $in : tour.items}},
+            function(err, sightInTour){
+                if(err) { return next(err);}
+                
+                //Successful, so render
+                res.render('tour_detail', {title: 'Tour Detail', tour: tour, sightInTour: sightInTour})
+            });
+        }); 
 };
 
 // Display tour create form on GET.
@@ -151,28 +132,23 @@ exports.tour_search_post =    [
     function(req, res, next) {
         var Name = req.body.name;
 
-        async.parallel({
-        tour: function(callback) {
-            Tour.findOne( {name : Name})
-              .exec(callback);
-        },
-
-        tour_items: function(callback) {
-            Sight.find({id : 'items'})
-              .exec(callback);
-        },
-
-    }, function(err, results) {
+        Tour.findOne({'name' : Name})
+        .exec(function(err, tour){
+                if(err) { return next(err);}
+                if(tour==null) { //No Tour found
+                    var err = new Error('Sight not found');
+                    err.status = 404;
+                    return next(err);
+                }
+                Sight.find({ _id : { $in : tour.items}},
+                function(err, sightInTour){
+                    if(err) { return next(err);}
+                    
+                    //Successful, so render
+                    res.render('tour_detail', {title: 'Tour Detail', tour: tour, sightInTour: sightInTour});
+                });
+            }); 
         
-        if (err) { return next(err); }
-        if (results.tour==null) { // No results.
-            var err = new Error('Tour not found');
-            err.status = 404;
-            return next(err);
-        }
-        // Successful, so render
-        res.render('tour_detail', { title: 'Tour Detail', tour: results.tour, tour_items: results.tour_items } );
-    })
     }
 ]
 
