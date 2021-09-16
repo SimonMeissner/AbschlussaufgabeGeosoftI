@@ -31,6 +31,21 @@ exports.sight_list = function(req, res, next) {
         });
 };
 
+exports.sight_list_json = async (req, res) => {
+    console.log('hallo')
+    try {
+        
+        const sight_list = await Sight.find();
+        res.json(sight_list);
+    }
+    catch(err) {
+        res.json({message:err});
+        next(err);
+
+    }
+
+}
+
 // Display detail page for a specific sight.
 exports.sight_detail = function(req, res, next) {
     

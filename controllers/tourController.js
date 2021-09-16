@@ -26,7 +26,7 @@ exports.tour_detail = function(req, res, next) {
     .exec(function(err, tour){
             if(err) { return next(err);}
             if(tour==null) { //No Tour found
-                var err = new Error('Sight not found');
+                var err = new Error('Tour not found');
                 err.status = 404;
                 return next(err);
             }
