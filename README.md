@@ -1,8 +1,9 @@
 Implementierung der Abschlussaufgabe fuer Geosoftware I (SoSe 21)
 
 Hinweise zur Nutzung:
-Für die Wikipedia-API zur Vervollständigung der Beschreibung der Sehenswürdigkeiten bitte die englischsprachige Wikipedia nutzen.
-Koordinaten in den create/update sights forms bitte in folgendem Format angeben: [[lat,lon],[lat,lon],...]
+-Für die Wikipedia-API zur Vervollständigung der Beschreibung der Sehenswürdigkeiten bitte die englischsprachige Wikipedia nutzen.
+-Bei der Erstellung von Sehenswürdigkeiten bitte nur englischsprachige Wikipedia links nutzen
+-Koordinaten in den create/update sights forms bitte in folgendem Format angeben: [[lat,lon],[lat,lon],...]
 [7.612452507019042,51.955242031946604]
 
 
