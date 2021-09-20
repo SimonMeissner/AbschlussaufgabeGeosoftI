@@ -9,6 +9,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 var DataLayer = L.geoJSON().addTo(map);
 
+//render all Sights on the map with popup at the first point of the polygon containing metadata
 window.onload = function() {
     
     var xhr = new XMLHttpRequest();
@@ -33,21 +34,50 @@ window.onload = function() {
           marker.bindPopup(textform).openPopup().addTo(map) 
 
 
-          
+
         }
       }
     };
     xhr.send();
   }
-/*
-  function getInfo (link) {
+
+//function to check if link is wikipedia page and if so display first few lines of the article
+function getInfo (link) {
     $(function () {
       $.ajax({
         type: 'GET',
-        url:  `https://www.mediawiki.org/w/api.php`,
+        url:  `https://www.mediawiki.org/w/api.php?action=query&origin=https://en.wikipedia.org`,
         success:  function(data) {
           
         }
       })
     })
-  } */
+}
+
+//Eventlistener for show Busstop button
+document.getElementById("showbusstop").addEventListener("click", function() {
+  
+  $(function () {
+    $.ajax({
+      type: 'GET',
+      url:  `https://rest.busradar.conterra.de/prod/haltestellen`,
+      success:  function(data) {
+        //normally only adding the busstop closest to the marked sight...
+        for(i=0;i < data.features.length; i++) {
+
+
+          var lat = data.features[i].geometry.coordinates[0]
+          var lon = data.features[i].geometry.coordinates[1]
+          var marker = L.marker([lon, lat])
+
+          var textform = 'Name: ' + data.features[i].properties.lbez 
+          
+
+          marker.bindPopup(textform).openPopup().addTo(map)
+
+        }
+      }
+    })
+  })
+
+})
