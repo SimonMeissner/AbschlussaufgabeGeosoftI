@@ -33,3 +33,10 @@ map.on('draw:created', function(e) {
     var polygon = drawnItems.toGeoJSON();  //polygon can also be a point (=only one pair of coordinates in array)
     console.log(JSON.stringify(polygon));
 });
+
+map.on(L.Draw.Event.CREATED, function (e) {
+    console.log('hier')
+    var type = e.layerType
+    var layer = e.layer
+
+});

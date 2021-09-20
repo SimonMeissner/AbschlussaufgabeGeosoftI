@@ -32,11 +32,11 @@ exports.sight_list = function(req, res, next) {
 };
 
 exports.sight_list_json = async (req, res) => {
-    console.log('hallo')
     try {
         
         const sight_list = await Sight.find();
-        res.json(sight_list);
+        res.send(sight_list)
+
     }
     catch(err) {
         res.json({message:err});

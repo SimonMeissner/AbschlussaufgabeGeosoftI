@@ -8,7 +8,9 @@
     "serverstart": "SET DEBUG=cityguide:* & npm run devstart"
   },
   "dependencies": {
+    "@turf/centroid": "^6.5.0",
     "async": "^3.2.1",
+    "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "debug": "^2.6.9",
     "dotenv": "^10.0.0",
