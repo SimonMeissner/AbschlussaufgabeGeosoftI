@@ -7,12 +7,11 @@ block content
   form(method='POST' action='')
     div.form-group
       label(for='sightname') Sightname:
-      input#sightname.form-control(type='text' name='name' value=(undefined===sight ? '' : sight.name), required= 'true')
+      input#sightname.form-control(type='text' name='name' required= 'true' value=(undefined===sight ? '' : sight.features[0].properties.name) )
       label(for='sightlink') Sightlink:
-      input#sightlink.form-control(type='text' name='link' value=(undefined===sight ? '' : sight.link), required= 'true')
+      input#sightlink.form-control(type='text' name='link' required= 'true' value=(undefined===sight ? '' : sight.features[0].properties.link) )
       label(for='sightcoordinates') SightCoordinates:
-      input#sightcoordinates.form-control(type='text' name='coordinates' value=(undefined===sight ? '' : sight.coordinates))
-
+      input#sightcoordinates.form-control(type='text' name='coordinates' value=(undefined===sight ? '' : sight.features[0].geometry.coordinates) )
     button.btn.btn-primary(type='submit') Submit
 
 

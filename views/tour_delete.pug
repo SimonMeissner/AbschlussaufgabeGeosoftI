@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1 #{title}: #{tour.name}
+
+    p Do you really want to delete this Tour?
+
+    form(method='POST' action='')
+      div.form-group
+        input#tourid.form-control(type='hidden',name='tourid', required='true', value=tour._id )
+
+      button.btn.btn-primary(type='submit') Delete
