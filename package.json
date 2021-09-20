@@ -8,6 +8,7 @@
     "serverstart": "SET DEBUG=cityguide:* & npm run devstart"
   },
   "dependencies": {
+    "ajax": "0.0.4",
     "async": "^3.2.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -16,6 +17,8 @@
     "express": "^4.16.4",
     "express-validator": "^6.12.1",
     "http-errors": "^1.6.3",
+    "jquery": "^3.6.0",
+    "jsdom": "^17.0.0",
     "mongodb": "^4.1.1",
     "mongoose": "^6.0.5",
     "mongoose-geojson-schema": "^2.1.7",

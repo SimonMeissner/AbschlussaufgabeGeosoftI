@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 #{title}: #{sight.name}
+
+  if sightInTour.length
+
+    p #[strong Delete the following tours before attempting to delete this sight.]
+
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 Tours
+
+      dl
+      each tour in sightInTour
+        dt
+          a(href=tour.url) #{tour.name}
+
+  else
+    p Do you really want to delete this Sight?
+
+    form(method='POST' action='')
+      div.form-group
+        input#sightid.form-control(type='hidden',name='sightid', required='true', value=sight._id )
+
+      button.btn.btn-primary(type='submit') Delete

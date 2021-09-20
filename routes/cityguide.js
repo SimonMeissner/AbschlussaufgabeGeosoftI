@@ -75,5 +75,12 @@ router.get('/tour/:id', tour_controller.tour_detail);
 // GET request for list of all tour.
 router.get('/tour', tour_controller.tour_list);
 
+// API ROUTES // RAW JSON
+
+// GET request for list of all sight items.
+router.get('/api/sight', sight_controller.sight_list_json);
+
+
+
 
 module.exports = router;
